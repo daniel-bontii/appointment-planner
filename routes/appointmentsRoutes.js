@@ -6,6 +6,7 @@ router.param("id", appointmentsController.checkID);
 
 router
   .route("/")
+  .get(appointmentsController.getAllAppointments)
   .post(appointmentsController.checkBody, appointmentsController.createAppointment);
 
 
