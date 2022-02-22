@@ -1,7 +1,7 @@
 CREATE TABLE contacts(
     id SERIAL PRIMARY KEY,
     contact_name VARCHAR(50) NOT NULL,
-    contact VARCHAR(10),
+    contact VARCHAR(15),
     email VARCHAR(50) NOT NULL
 );
 

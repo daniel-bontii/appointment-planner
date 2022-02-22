@@ -42,7 +42,21 @@ exports.updateContact = async (req, res) => {
       "UPDATE contacts SET contact_name=$1, contact=$2, email=$3 WHERE id=$4",
       [contactName, contact, email, id]
     );
-    res.status(200).json({ message: "Successfully updated department" });
+    res.status(200).json({ message: "Successfully updated Contact" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
+
+exports.createContact = async (req, res) => {
+  try {
+    const { contactName, contact, email } = req.body;
+    const newContact = await pool.query(
+      "INSERT INTO contacts (contact_name, contact, email) VALUES($1, $2, $3) RETURNING *",
+      [contactName, contact, email]
+    );
+    res.status(201).json(newContact.rows[0]);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Internal Server error");
