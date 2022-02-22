@@ -26,10 +26,7 @@ exports.getAllContacts = async (req, res) => {
 exports.getContact = async (req, res) => {
   try {
     const { id } = req.params;
-    const contac = await pool.query(
-      "SELECT * FROM contacts WHERE id=$1",
-      [id]
-    );
+    const contac = await pool.query("SELECT * FROM contacts WHERE id=$1", [id]);
     res.status(200).json(contac.rows[0]);
   } catch (err) {
     console.error(err.message);
@@ -37,4 +34,17 @@ exports.getContact = async (req, res) => {
   }
 };
 
-
+exports.updateContact = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { contactName, contact, email } = req.body;
+    await pool.query(
+      "UPDATE contacts SET contact_name=$1, contact=$2, email=$3 WHERE id=$4",
+      [contactName, contact, email, id]
+    );
+    res.status(200).json({ message: "Successfully updated department" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
