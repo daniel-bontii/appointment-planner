@@ -3,7 +3,7 @@ const pool = require("../db");
 exports.checkBody = async (req, res, next) => {
   try {
     const { contactName, email } = req.body;
-    if (!contactName, email) {
+    if (!(contactName && email)) {
       return res.status(400).json("Please fill out name and email fields");
     }
     next();
