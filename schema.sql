@@ -1,13 +1,13 @@
 CREATE TABLE contacts(
     id SERIAL PRIMARY KEY,
-    contact_name VARCHAR(50),
+    contact_name VARCHAR(50) NOT NULL,
     contact VARCHAR(10),
-    email VARCHAR(50)
+    email VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE appointments(
     id SERIAL PRIMARY KEY,
-    appointment_title VARCHAR(50),
-    appointment_date DATE,
-    appointment_time TIME,
+    appointment_title VARCHAR(50) NOT NULL,
+    appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL
 );
