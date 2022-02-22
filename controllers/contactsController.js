@@ -1,5 +1,18 @@
 const pool = require("../db");
 
+exports.checkBody = async (req, res, next) => {
+  try {
+    const { contactName, email } = req.body;
+    if (!contactName, email) {
+      return res.status(400).json("Please fill out name and email fields");
+    }
+    next();
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
+
 exports.checkID = async (req, res, next, val) => {
   try {
     const id = await pool.query("SELECT id FROM contacts WHERE ID=$1", [val]);
@@ -52,11 +65,30 @@ exports.updateContact = async (req, res) => {
 exports.createContact = async (req, res) => {
   try {
     const { contactName, contact, email } = req.body;
+
+    const check = await pool.query(
+      "SELECT email from contacts WHERE email=$1",
+      [email]
+    );
+    if (check.rowCount > 0) {
+      return res.json("User already exists");
+    }
     const newContact = await pool.query(
       "INSERT INTO contacts (contact_name, contact, email) VALUES($1, $2, $3) RETURNING *",
       [contactName, contact, email]
     );
     res.status(201).json(newContact.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
+
+exports.deleteContact = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query("DELETE FROM contacts WHERE id=$1", [id]);
+    res.status(204).send();
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Internal Server error");

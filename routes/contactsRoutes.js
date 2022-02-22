@@ -7,11 +7,12 @@ router.param("id", contactsController.checkID);
 router
   .route("/")
   .get(contactsController.getAllContacts)
-  .post(contactsController.createContact);
+  .post(contactsController.checkBody, contactsController.createContact);
 
 router
   .route("/:id")
   .get(contactsController.getContact)
-  .put(contactsController.updateContact);
+  .put(contactsController.updateContact)
+  .delete(contactsController.deleteContact);
 
 module.exports = router;
