@@ -8,6 +8,7 @@ export const TileList = ({ tiles }) => {
       {tiles.map((tile, index) => (
         <Tile key={index} tile={tile} />
       ))}
+      
     </div>
   );
 };
