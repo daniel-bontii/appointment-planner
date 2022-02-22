@@ -7,6 +7,7 @@ CREATE TABLE contacts(
 
 CREATE TABLE appointments(
     id SERIAL PRIMARY KEY,
+    contact_id INTEGER REFERENCES contacts(id) NOT NULL,
     appointment_title VARCHAR(50) NOT NULL,
     appointment_date DATE NOT NULL,
     appointment_time TIME NOT NULL

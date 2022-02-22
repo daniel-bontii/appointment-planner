@@ -12,6 +12,7 @@ router
   router
   .route("/:id")
   .get(appointmentsController.getAppointment)
+  .put(appointmentsController.updateAppointment)
 
 
 module.exports = router;

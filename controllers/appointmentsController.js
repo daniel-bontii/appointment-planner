@@ -31,7 +31,8 @@ exports.checkID = async (req, res, next, val) => {
 
 exports.createAppointment = async (req, res) => {
   try {
-    const { appointmentTitle, appointmentDate, appointmentTime } = req.body;
+    const { contactId, appointmentTitle, appointmentDate, appointmentTime } =
+      req.body;
 
     const timeCheck = await pool.query(
       "SELECT appointment_time from appointments WHERE appointment_time=$1",
@@ -45,8 +46,8 @@ exports.createAppointment = async (req, res) => {
       return res.status(404).json("Slot has been taken already");
     }
     const newAppointment = await pool.query(
-      "INSERT INTO appointments (appointment_title, appointment_date, appointment_time) VALUES($1, $2, $3) RETURNING *",
-      [appointmentTitle, appointmentDate, appointmentTime]
+      "INSERT INTO appointments (appointment_title, appointment_date, appointment_time, contact_id) VALUES($1, $2, $3, $4) RETURNING *",
+      [appointmentTitle, appointmentDate, appointmentTime, contactId]
     );
     res.status(201).json(newAppointment.rows[0]);
   } catch (err) {
@@ -73,6 +74,22 @@ exports.getAppointment = async (req, res) => {
       [id]
     );
     res.status(200).json(appointment.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
+
+exports.updateAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { contactId, appointmentTitle, appointmentDate, appointmentTime } =
+      req.body;
+    await pool.query(
+      "UPDATE appointments SET contact_id=$1, appointment_title=$2, appointment_date=$3, appointment_time=$4 WHERE id=$5",
+      [contactId, appointmentTitle, appointmentDate, appointmentTime, id]
+    );
+    res.status(200).json({ message: "Successfully updated Appointment" });
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Internal Server error");
