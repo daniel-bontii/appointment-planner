@@ -95,3 +95,14 @@ exports.updateAppointment = async (req, res) => {
     res.status(500).json("Internal Server error");
   }
 };
+
+exports.deleteAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query("DELETE FROM appointments WHERE id=$1", [id]);
+    res.status(204).send();
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
