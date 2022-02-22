@@ -9,5 +9,9 @@ router
   .get(appointmentsController.getAllAppointments)
   .post(appointmentsController.checkBody, appointmentsController.createAppointment);
 
+  router
+  .route("/:id")
+  .get(appointmentsController.getAppointment)
+
 
 module.exports = router;

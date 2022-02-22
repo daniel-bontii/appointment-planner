@@ -56,11 +56,25 @@ exports.createAppointment = async (req, res) => {
 };
 
 exports.getAllAppointments = async (req, res) => {
-    try {
-      const appointments = await pool.query("SELECT * FROM appointments");
-      res.status(200).json(appointments.rows);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).json("Internal Server error");
-    }
-  };
+  try {
+    const appointments = await pool.query("SELECT * FROM appointments");
+    res.status(200).json(appointments.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
+
+exports.getAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const appointment = await pool.query(
+      "SELECT * FROM appointments WHERE id=$1",
+      [id]
+    );
+    res.status(200).json(appointment.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Internal Server error");
+  }
+};
