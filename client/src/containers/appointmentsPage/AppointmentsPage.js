@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { AppointmentForm } from "../../components/appointmentForm/AppointmentForm";
 import { TileList } from "../../components/tileList/TileList";
@@ -14,6 +14,7 @@ export const AppointmentsPage = ({
   );
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [dbAppointments, setDbAppointments] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,6 +24,20 @@ export const AppointmentsPage = ({
     setDate("");
     setTime("");
   };
+  const getAppointments = async () => {
+    try {
+      const res = await fetch("http://localhost:4001/aplanner/api/v1/appointments");
+      const jsonRes = await res.json();
+      setDbAppointments(jsonRes);
+      // console.log(jsonRes);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getAppointments();
+  }, []);
 
   return (
     <>
@@ -44,7 +59,7 @@ export const AppointmentsPage = ({
       <hr />
       <section>
         <h2>Appointments</h2>
-        <TileList tiles={appointments} />
+        <TileList tiles={dbAppointments} />
       </section>
     </>
   );

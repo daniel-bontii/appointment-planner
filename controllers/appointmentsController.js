@@ -58,7 +58,7 @@ exports.createAppointment = async (req, res) => {
 
 exports.getAllAppointments = async (req, res) => {
   try {
-    const appointments = await pool.query("SELECT * FROM appointments");
+    const appointments = await pool.query("SELECT appointments.id, appointment_title, appointment_date, appointment_time, contacts.contact_name FROM appointments JOIN contacts ON appointments.contact_id = contacts.id");
     res.status(200).json(appointments.rows);
   } catch (err) {
     console.error(err.message);

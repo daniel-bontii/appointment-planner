@@ -46,7 +46,7 @@ export const ContactsPage = ({ contacts, addContact }) => {
       const res = await fetch("http://localhost:4001/aplanner/api/v1/contacts");
       const jsonRes = await res.json();
       setDBContacts(jsonRes);
-      console.log(jsonRes);
+      // console.log(jsonRes);
     } catch (err) {
       console.error(err.message);
     }
