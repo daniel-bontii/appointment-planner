@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { AppointmentForm } from "../../components/appointmentForm/AppointmentForm";
-import { TileList } from "../../components/tileList/TileList";
+import { AppointmentTileList } from "../../components/tileList/AppointmentTileList";
 
 export const AppointmentsPage = ({
   appointments,
@@ -59,7 +59,7 @@ export const AppointmentsPage = ({
       <hr />
       <section>
         <h2>Appointments</h2>
-        <TileList tiles={dbAppointments} />
+        <AppointmentTileList tiles={dbAppointments} />
       </section>
     </>
   );
