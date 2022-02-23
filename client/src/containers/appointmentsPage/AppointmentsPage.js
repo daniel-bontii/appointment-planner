@@ -16,14 +16,33 @@ export const AppointmentsPage = ({
   const [time, setTime] = useState("");
   const [dbAppointments, setDbAppointments] = useState([]);
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   addAppointment(title, contact, date, time);
+  //   setTitle("");
+  //   setContact("");
+  //   setDate("");
+  //   setTime("");
+  // };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addAppointment(title, contact, date, time);
-    setTitle("");
-    setContact("");
-    setDate("");
-    setTime("");
+    const body = {
+      contactId: contact,
+      appointmentTitle: title,
+      appointmentDate: date,
+      appointmentTime: time
+    }
+    const res = await fetch("http://localhost:4001/aplanner/api/v1/appointments", {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
+    const jsonRes = await res.json();
+    console.log(jsonRes)
+    // console.log('submitteddddd')
+    window.location = "/appointments";
   };
+
   const getAppointments = async () => {
     try {
       const res = await fetch("http://localhost:4001/aplanner/api/v1/appointments");

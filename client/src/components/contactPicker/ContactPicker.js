@@ -18,6 +18,7 @@ export const ContactPicker = ({ name, onChange, contacts }) => {
   useEffect(() => {
     getContacts();
   }, []);
+  
   return (
     <select name={name} onChange={onChange}>
       <option value={""} key={-1} selected="selected">
