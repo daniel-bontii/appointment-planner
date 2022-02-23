@@ -36,9 +36,22 @@ export const ContactsPage = ({ contacts, addContact }) => {
   //   }
   // }, [name, contacts, duplicate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('submitteddddd')
+    const body = {
+      contactName: name,
+      contact: phone,
+      email: email
+    }
+    const res = await fetch("http://localhost:4001/aplanner/api/v1/contacts", {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
+    // const jsonRes = await res.json();
+    // console.log(jsonRes)
+    // console.log('submitteddddd')
+    window.location = "/";
   };
 
   const getContacts = async () => {
